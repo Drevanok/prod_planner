@@ -1,1 +1,5 @@
-<!-- aqui ira la logica para schedule day-->
+<template>
+    <div>
+        schedule day
+    </div>
+</template>

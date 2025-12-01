@@ -1,1 +1,3 @@
-<!-- aqui ira la logica para dashboard employee-->
+<template>
+    <div>Dashboard de empleado</div>
+</template>

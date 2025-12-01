@@ -1,11 +1,27 @@
-<script setup></script>
-
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <router-view />
 </template>
 
-<style scoped></style>
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuth } from '@/composables/useAuth'
+
+const email = ref('')
+const password = ref('')
+
+const router = useRouter()
+const { login, errorMsg, loading, user } = useAuth()
+
+async function handleLogin() {
+  const ok = await login({
+    email: email.value,
+    password: password.value
+  })
+
+  if (!ok) return
+
+  if (user.value?.role === 'admin') router.replace('/admin')
+  else router.replace('/employee')
+}
+</script>

@@ -1,1 +1,5 @@
-<!-- aqui ira la logica para skills page-->
+<template>
+    <div>
+        mis habilidades
+    </div>
+</template>

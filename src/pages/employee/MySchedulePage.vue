@@ -1,1 +1,3 @@
-<!-- aqui ira la logica para schedule page-->
+<template>
+    <div>mi horario</div>
+</template>
