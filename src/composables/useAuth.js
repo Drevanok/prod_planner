@@ -1,4 +1,3 @@
-// src/composables/useAuth.js
 import { ref } from 'vue'
 import { useSupabase } from './useSupabase'
 
@@ -13,21 +12,17 @@ export function useAuth() {
 
   let initialized = false
 
-  // -----------------------
-  // REGISTRO
-  // -----------------------
   const register = async ({ full_name, email, password, role }) => {
     loading.value = true
     errorMsg.value = ''
 
-    // Enviar BOTH metadata
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         data: {
           full_name,
-          role, // <-- NECESARIO PARA EL TRIGGER
+          role, 
         },
       },
     })
@@ -42,9 +37,7 @@ export function useAuth() {
     return true
   }
 
-  // -----------------------
-  // LOGIN
-  // -----------------------
+
   const login = async ({ email, password }) => {
     loading.value = true
     errorMsg.value = ''
@@ -79,18 +72,12 @@ export function useAuth() {
     }
   }
 
-  // -----------------------
-  // LOGOUT
-  // -----------------------
   const logout = async () => {
     await supabase.auth.signOut()
     user.value = null
     isPasswordRecovery.value = false
   }
 
-  // -----------------------
-  // INIT
-  // -----------------------
   const init = async () => {
     if (initialized) return
     initialized = true

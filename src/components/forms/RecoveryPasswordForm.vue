@@ -1,7 +1,6 @@
 <template>
   <div class="max-w-md mx-auto mt-6 p-6 bg-white rounded shadow">
 
-    <!-- MENSAJES -->
     <p v-if="msg" class="text-green-600 text-center mb-4 text-lg font-semibold">
       {{ msg }}
     </p>
@@ -10,9 +9,6 @@
       {{ errorMsg }}
     </p>
 
-    <!-- ======================= -->
-    <!-- FORMULARIO (solo si no se ha enviado) -->
-    <!-- ======================= -->
     <form
       v-if="!sent"
       @submit.prevent="sendLink"
@@ -34,7 +30,6 @@
         Enviar enlace de recuperación
       </button>
 
-      <!-- Botón regresar al login -->
       <button
         type="button"
         class="w-full bg-gray-200 py-2 rounded mt-3"
@@ -44,9 +39,6 @@
       </button>
     </form>
 
-    <!-- ======================= -->
-    <!-- VISTA DE “EMAIL ENVIADO” -->
-    <!-- ======================= -->
     <div v-else class="space-y-4 text-center">
 
       <p class="text-lg text-green-700 font-medium">
@@ -64,7 +56,6 @@
         Reenviar correo
       </button>
 
-      <!-- Botón regresar al login -->
       <button
         type="button"
         class="w-full bg-gray-200 py-2 rounded"
@@ -85,12 +76,11 @@ import { useRouter } from "vue-router"
 const email = ref("")
 const msg = ref("")
 const errorMsg = ref("")
-const sent = ref(false) // controla si se muestra el formulario o el mensaje
+const sent = ref(false)
 
 const supabase = useSupabase()
 const router = useRouter()
 
-// enviar enlace
 const sendLink = async () => {
   msg.value = ""
   errorMsg.value = ""
@@ -108,13 +98,11 @@ const sendLink = async () => {
   sent.value = true
 }
 
-// reenviar email
 const resend = () => {
   msg.value = ""
   sent.value = false
 }
 
-// regresar al login
 const goLogin = () => {
   router.push("/login")
 }

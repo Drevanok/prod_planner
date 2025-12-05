@@ -1,12 +1,10 @@
-// router/index.js
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuth } from '@/composables/useAuth'
 
-// Layouts
+
 import AdminLayout from '@/layouts/AdminLayout.vue'
 import EmployeeLayout from '@/layouts/EmployeeLayout.vue'
 
-// Pages
 import LoginPage from '@/pages/auth/LoginPage.vue'
 import RegisterPage from '@/pages/auth/RegisterPage.vue'
 import RecoveryPasswordPage from '@/pages/auth/RecoveryPasswordPage.vue'
@@ -34,8 +32,7 @@ const routes = [
     path: '/admin',
     component: AdminLayout,
     children: [
-      { path: '', component: AdminHome },
-      { path: 'dashboard', component: DashboardAdmin },
+      { path: '', component: DashboardAdmin },
       { path: 'employees', component: EmployeesPage },
       { path: 'lines', component: LinesPage },
       { path: 'units', component: UnitsPage },
@@ -62,32 +59,28 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach( async (to) => {
+router.beforeEach(async (to) => {
   const { user, isAuthReady, init } = useAuth()
 
-  if (!isAuthReady.value)
-    await init()
+  if (!isAuthReady.value) await init()
 
   const publicRoutes = ['/login', '/register', '/recovery-password']
 
   if (to.meta.ignoreSession) return true
 
-  // Usuario no logueado intenta acceder
+
   if (to.path.startsWith('/admin') || to.path.startsWith('/employee')) {
     if (!user.value) return '/login'
   }
 
-  // Evitar que usuarios logueados regresen a login/register
   if (publicRoutes.includes(to.path) && user.value?.role) {
     return user.value.role === 'admin' ? '/admin' : '/employee'
   }
 
-  // Restringir por rol
-  if (to.path.startsWith('/admin') && user.value.role !== 'admin')
-    return '/employee'
+ 
+  if (to.path.startsWith('/admin') && user.value.role !== 'admin') return '/employee'
 
-  if (to.path.startsWith('/employee') && user.value.role !== 'employee')
-    return '/admin'
+  if (to.path.startsWith('/employee') && user.value.role !== 'employee') return '/admin'
 
   return true
 })

@@ -1,4 +1,3 @@
-// src/composables/useEmployees.js
 import { ref } from 'vue'
 import { useSupabase } from './useSupabase'
 
@@ -6,7 +5,6 @@ export function useEmployees() {
   const supabase = useSupabase()
   const employees = ref([])
 
-  // carga empleados activos con su perfil y cursos
   const loadEmployees = async () => {
     const { data, error } = await supabase
       .from('employees')
@@ -27,7 +25,6 @@ export function useEmployees() {
     return employees.value
   }
 
-  // obtener un empleado por id (con cursos)
   const getEmployeeById = async (id) => {
     const { data, error } = await supabase
       .from('employees')

@@ -1,4 +1,3 @@
-// src/composables/useAreas.js
 import { ref } from "vue";
 import { useSupabase } from "./useSupabase";
 

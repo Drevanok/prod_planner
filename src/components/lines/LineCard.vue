@@ -1,1 +1,0 @@
-<!-- aqui ira la logica para el card de las lineas -->

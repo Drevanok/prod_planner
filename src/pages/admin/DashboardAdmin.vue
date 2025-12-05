@@ -2,7 +2,6 @@
   <div class="p-6 max-w-6xl mx-auto">
     <h1 class="text-3xl font-bold mb-6">Dashboard — Administrador</h1>
 
-    <!-- TARJETAS -->
     <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
       <div class="bg-white rounded-lg shadow p-4">
         <p class="text-sm text-gray-500">Empleados</p>
@@ -47,14 +46,18 @@
           <tbody>
             <tr v-for="s in upcomingSchedules" :key="s.id" class="border-b">
               <td class="py-2">{{ formatDate(s.date) }}</td>
-              <td class="py-2">{{ s.lines?.name ?? '-' }}</td>
-              <td class="py-2">{{ s.units?.name ?? '-' }}</td>
+              <td class="py-2">{{ s.lines?.name ?? "-" }}</td>
+              <td class="py-2">{{ s.units?.name ?? "-" }}</td>
               <td class="py-2 text-sm text-gray-600">
-                Ens: {{ s.units?.req_assembly ?? 0 }},
-                Elec: {{ s.units?.req_electronics ?? 0 }},
-                Test: {{ s.units?.req_testing ?? 0 }}
+                <template v-if="s.required_courses?.length">
+                  <span v-for="(rc, i) in s.required_courses" :key="rc.course_id">
+                    {{ rc.course_name }} (lvl {{ rc.required_level }})<span v-if="i < s.required_courses.length - 1">, </span>
+                  </span>
+                </template>
+                <span v-else>—</span>
               </td>
             </tr>
+
             <tr v-if="!upcomingSchedules.length">
               <td colspan="4" class="py-4 text-center text-gray-500">No hay schedules próximos</td>
             </tr>
@@ -71,11 +74,9 @@
             <div class="flex items-center justify-between">
               <div>
                 <p class="font-medium">{{ c.name }}</p>
-                <p class="text-xs text-gray-500">{{ c.category ?? '—' }}</p>
+                <p class="text-xs text-gray-500">{{ c.category ?? "—" }}</p>
               </div>
-              <div class="text-sm text-gray-700">
-                {{ c.count ?? 0 }} empleados
-              </div>
+              <div class="text-sm text-gray-700">{{ c.count }} empleados</div>
             </div>
           </li>
 
@@ -87,27 +88,11 @@
 </template>
 
 <script setup>
-import { onMounted, computed } from 'vue'
-import { useDashboard } from '@/composables/useDashboard'
-import { format } from 'date-fns' // opcional si lo tienes; si no, usa custom formatter
-import { useSupabase } from '@/composables/useSupabase'
+import { onMounted } from "vue";
+import { useDashboard } from "@/composables/useDashboard";
+import { formatDate } from "@/utils/formatDate";
 
-const { totals, upcomingSchedules, topCourses, loadAll, loadTotals, loadUpcomingSchedules, loadTopCourses, loading } = useDashboard()
+const { totals, upcomingSchedules, topCourses, loadAll } = useDashboard();
 
-onMounted(async () => {
-  await loadAll()
-})
-
-// fecha legible
-const formatDate = (d) => {
-  if (!d) return '-'
-  try {
-    // d puede venir como string 'YYYY-MM-DD'
-    const dt = new Date(d)
-    return dt.toLocaleDateString()
-  } catch {
-    return d
-  }
-}
+onMounted(() => loadAll());
 </script>
-

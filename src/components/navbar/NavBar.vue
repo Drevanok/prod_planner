@@ -1,33 +1,36 @@
-<!-- NavBar.vue -->
 <template>
-  <nav class="navbar">
-    <h1 v-if="role === 'admin'">Panel Administrador</h1>
-    <h1 v-else-if="role === 'employee'">Panel Empleado</h1>
+  <nav class="w-full px-6 py-4 bg-gray-900 text-white flex items-center justify-between shadow">
 
-    <ul v-if="role">
-      <!-- MENU ADMIN -->
+    <h1 class="text-xl font-semibold">
+      <template v-if="role === 'admin'">Panel Administrador</template>
+      <template v-else-if="role === 'employee'">Panel Empleado</template>
+    </h1>
+
+    <ul
+      v-if="role"
+      class="flex items-center gap-6 text-gray-300"
+    >
+ 
       <template v-if="role === 'admin'">
-        <li><router-link to="/admin">Inicio</router-link></li>
-        <li><router-link to="/admin/dashboard">Dashboard</router-link></li>
-        <li><router-link to="/admin/employees">Empleados</router-link></li>
-        <li><router-link to="/admin/lines">Líneas</router-link></li>
-        <li><router-link to="/admin/units">Unidades</router-link></li>
-        <li><router-link to="/admin/schedule">Horarios</router-link></li>
-        <li><router-link to="/admin/courses">Cursos</router-link></li>
+        <li><router-link class="hover:text-white transition" to="/admin/dashboard">Dashboard</router-link></li>
+        <li><router-link class="hover:text-white transition" to="/admin/employees">Empleados</router-link></li>
+        <li><router-link class="hover:text-white transition" to="/admin/lines">Líneas</router-link></li>
+        <li><router-link class="hover:text-white transition" to="/admin/units">Unidades</router-link></li>
+        <li><router-link class="hover:text-white transition" to="/admin/schedule">Horarios</router-link></li>
+        <li><router-link class="hover:text-white transition" to="/admin/courses">Cursos</router-link></li>
       </template>
 
-      <!-- MENU EMPLEADO -->
       <template v-else-if="role === 'employee'">
-        <li><router-link to="/employee">Inicio</router-link></li>
-        <li><router-link to="/employee/myskills">Mis Cursos</router-link></li>
-        <li><router-link to="/employee/myschedule">Mi Horario</router-link></li>
+        <li><router-link class="hover:text-white transition" to="/employee">Dashboard</router-link></li>
+        <li><router-link class="hover:text-white transition" to="/employee/myskills">Mis Cursos</router-link></li>
+        <li><router-link class="hover:text-white transition" to="/employee/myschedule">Mi Horario</router-link></li>
       </template>
 
-
-      <!-- BOTÓN LOGOUT -->
       <li>
-        <button @click="handleLogout"
-          class="text-gray-200 hover:text-white px-3 py-1 rounded bg-red-600 hover:bg-red-700 transition">
+        <button
+          @click="handleLogout"
+          class="px-4 py-2 rounded bg-red-600 hover:bg-red-700 text-white transition"
+        >
           Cerrar sesión
         </button>
       </li>
@@ -43,7 +46,7 @@ import { useSupabase } from '@/composables/useSupabase'
 
 const router = useRouter()
 const { logout } = useAuth()
-const supabase = useSupabase() // ← AQUÍ ESTABA EL ERROR
+const supabase = useSupabase() 
 
 const role = ref(null)
 
@@ -71,27 +74,3 @@ const handleLogout = async () => {
   router.replace('/login')
 }
 </script>
-
-<style scoped>
-.navbar {
-  width: 100%;
-  padding: 20px;
-  background: #222;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-ul {
-  display: flex;
-  gap: 15px;
-  list-style: none;
-  align-items: center;
-}
-
-button {
-  cursor: pointer;
-  border: none;
-}
-</style>

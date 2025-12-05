@@ -6,7 +6,7 @@
     >
       <h2 class="text-2xl font-bold text-center text-gray-700">Crear Cuenta</h2>
 
-      <!-- Nombre -->
+
       <div>
         <label class="block text-gray-600 mb-1 font-medium">Nombre completo</label>
         <input
@@ -16,7 +16,7 @@
         />
       </div>
 
-      <!-- Email -->
+
       <div>
         <label class="block text-gray-600 mb-1 font-medium">Email</label>
         <input
@@ -27,7 +27,6 @@
         />
       </div>
 
-      <!-- Password -->
       <div>
         <label class="block text-gray-600 mb-1 font-medium">Contraseña</label>
         <input
@@ -38,7 +37,7 @@
         />
       </div>
 
-      <!-- Rol -->
+
       <div>
         <label class="block text-gray-600 mb-1 font-medium">Rol</label>
         <select
@@ -50,7 +49,7 @@
         </select>
       </div>
 
-      <!-- Error -->
+
       <p
         v-if="errorMsg"
         class="text-red-600 text-center font-semibold bg-red-100 py-2 rounded-lg"
@@ -58,7 +57,7 @@
         {{ errorMsg }}
       </p>
 
-      <!-- Botón Crear cuenta -->
+
       <button
         :disabled="loading"
         class="w-full py-2 text-white font-semibold bg-blue-600 hover:bg-blue-700 rounded-lg transition disabled:bg-gray-400 disabled:cursor-not-allowed"
@@ -66,7 +65,7 @@
         {{ loading ? "Creando..." : "Crear cuenta" }}
       </button>
 
-      <!-- Enlace para volver al login -->
+
       <button
         type="button"
         @click="goLogin"
@@ -93,7 +92,6 @@ const role = ref("employee");
 const { register, errorMsg, loading } = useAuth();
 
 const handleRegister = async () => {
-  // Validar correo: solo permite emails @ite.edu.mx para admins
   if (role.value === "admin" && !email.value.endsWith("@ite.edu.mx")) {
     alert("Solo correos @ite.edu.mx pueden ser administradores");
     return;
@@ -112,7 +110,6 @@ const handleRegister = async () => {
   }
 };
 
-// Función para regresar al login
 const goLogin = () => {
   router.push("/login");
 };

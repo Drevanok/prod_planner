@@ -40,9 +40,6 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuth } from '@/composables/useAuth'
 
-// ❗❗ NO IMPORTES supabase AQUÍ
-// import { supabase } from '@/composables/useSupabase'
-// const supabase = useSupabase()
 
 const email = ref('')
 const password = ref('')
